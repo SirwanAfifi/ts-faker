@@ -31,7 +31,29 @@ export const Monaco: React.FC<MonacoProps> = ({
         - DataType.LAST_NAME
         - DataType.PRICE
         - DataType.DESCRIPTION
-*/\n\n`}
+*/\n\n
+
+interface Person {
+  userName: DataType.USER_NAME;
+  firstName: DataType.FIRST_NAME;
+  lastName: DataType.LAST_NAME;
+  age: number;
+  bio: DataType.DESCRIPTION
+}
+
+interface Product {
+  id: number;
+  title: string;
+  description: DataType.DESCRIPTION;
+  price: DataType.PRICE;
+  addedAt: Date;
+}
+
+interface Author {
+  id: number;
+  name: DataType.FIRST_NAME;
+  numberOfBooks: number;
+}`}
       value={value}
       height={height}
       width={width}
