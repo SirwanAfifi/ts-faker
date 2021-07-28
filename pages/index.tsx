@@ -6,13 +6,14 @@ import { truncate, downloadObjectAsJson, downloadObjectAsSQL } from "../utils";
 import { Select } from "../components/Select";
 import { OPTIONS } from "../config";
 import { SocialButtons } from "../components/SocialButtons";
+import { SAMPLE_CODE } from "../components/CodeEditor";
 const TextEditor = dynamic(import("../components/CodeEditor"), {
   ssr: false,
 });
 
 export default function Home() {
   const [options, setOptions] = useState(OPTIONS);
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>(SAMPLE_CODE);
   const [result, setResult] = useState<GeneratedType[]>([]);
 
   const process = useCallback(async () => {
