@@ -1,0 +1,36 @@
+{
+  "name": "ts-faker",
+  "version": "1.0.0",
+  "repository": "https://github.com/SirwanAfifi/ts-faker",
+  "author": "Sirwan Afifi <sir1afifi@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.2.1",
+    "@types/axios": "^0.14.0",
+    "@types/faker": "^5.5.7",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "axios": "^0.21.1",
+    "faker": "^5.5.3",
+    "next": "11.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "ts-morph": "^11.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.3",
+    "autoprefixer": "^10.3.1",
+    "eslint": "7.31.0",
+    "eslint-config-next": "11.0.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
