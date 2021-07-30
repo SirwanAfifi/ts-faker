@@ -7,22 +7,27 @@ import { Select } from "../components/Select";
 import { OPTIONS } from "../config";
 import { SocialButtons } from "../components/SocialButtons";
 import { SAMPLE_CODE } from "../components/CodeEditor";
+import { Spinner } from "@components/Spinner";
+import { ActionButton } from "@components/ActionButton";
 const TextEditor = dynamic(import("../components/CodeEditor"), {
   ssr: false,
 });
 
 export default function Home() {
+  const [loading, setLoading] = useState<boolean>();
   const [options, setOptions] = useState(OPTIONS);
   const [value, setValue] = useState<string>(SAMPLE_CODE);
   const [result, setResult] = useState<GeneratedType[]>([]);
 
   const process = useCallback(async () => {
+    setLoading(true);
     const jsonData = await axios.post("/api/generateFakeData", {
       value,
       scale: options.scale,
       numberMax: options.numberMax,
     });
     setResult(jsonData.data as unknown as GeneratedType[]);
+    setLoading(false);
   }, [value, options]);
 
   const downloadFile = useCallback(
@@ -81,37 +86,33 @@ export default function Home() {
             onChange={onSelectChange}
           />
           <button
+            disabled={loading}
             onClick={process}
-            className="border border-solid w-40 h-10 rounded-full bg-indigo-500 text-white hover:bg-indigo-800 transition self-end"
+            className={`w-40 h-10 rounded-full bg-indigo-500 text-white transition self-end ${
+              !loading && "hover:bg-indigo-800"
+            } focus:outline-none disabled:opacity-50`}
           >
             Generate Data
           </button>
         </div>
         <div className="p-5">
+          {loading && <Spinner className=" text-center" />}
           {result.map((res) => (
             <React.Fragment key={res.name}>
               <div className="mb-5 pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  {res.name}{" "}
+                  {res.name}
                   <span className="text-sm text-gray-500">
                     (Number Of Rows: {options.scale})
                   </span>
                 </h3>
                 <div className="mt-3 flex sm:mt-0 sm:ml-4">
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={() => downloadFile(res)}
-                  >
+                  <ActionButton onClick={() => downloadFile(res)}>
                     Download JSON
-                  </button>
-                  <button
-                    type="button"
-                    className="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 border-transparent rounded-md shadow-sm text-sm font-medium bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={() => downloadSQLFile(res)}
-                  >
+                  </ActionButton>
+                  <ActionButton onClick={() => downloadSQLFile(res)}>
                     Download SQL
-                  </button>
+                  </ActionButton>
                 </div>
               </div>
               <div className="shadow border-b border-gray-200 overflow-auto mb-5">
