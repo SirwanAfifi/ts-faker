@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import { axios } from "../lib/axios";
-import { GeneratedType } from "../types";
-import { truncate, downloadObjectAsJson, downloadObjectAsSQL } from "../utils";
+import { GeneratedType, OutputFormat } from "../types";
+import { truncate, downloadObjectAsJson, downloadObjectAsSQL, copyData } from "../utils";
 import { Select } from "../components/Select";
 import { OPTIONS } from "../config";
 import { SocialButtons } from "../components/SocialButtons";
@@ -88,9 +88,8 @@ export default function Home() {
           <button
             disabled={loading}
             onClick={process}
-            className={`w-40 h-10 rounded-full bg-indigo-500 text-white transition self-end ${
-              !loading && "hover:bg-indigo-800"
-            } focus:outline-none disabled:opacity-50`}
+            className={`w-40 h-10 rounded-full bg-indigo-500 text-white transition self-end ${!loading && "hover:bg-indigo-800"
+              } focus:outline-none disabled:opacity-50`}
           >
             Generate Data
           </button>
@@ -107,12 +106,18 @@ export default function Home() {
                   </span>
                 </h3>
                 <div className="mt-3 flex sm:mt-0 sm:ml-4">
-                  <ActionButton onClick={() => downloadFile(res)}>
-                    Download JSON
-                  </ActionButton>
-                  <ActionButton onClick={() => downloadSQLFile(res)}>
-                    Download SQL
-                  </ActionButton>
+                  <ActionButton
+                    title="JSON"
+                    items={[
+                      { name: "Copy", onClick: () => copyData(res.data, OutputFormat.JSON) },
+                      { name: "Download", onClick: () => downloadFile(res) },
+                    ]} />
+                  <ActionButton
+                    title="SQL"
+                    items={[
+                      { name: "Copy", onClick: () => copyData(res, OutputFormat.SQL) },
+                      { name: "Download", onClick: () => downloadSQLFile(res) },
+                    ]} />
                 </div>
               </div>
               <div className="shadow border-b border-gray-200 overflow-auto mb-5">

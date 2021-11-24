@@ -1,5 +1,5 @@
 import { toSQL } from "@core/transformer";
-import { GeneratedType } from "../types";
+import { GeneratedType, OutputFormat } from "../types";
 
 export const downloadObjectAsJson = (
   exportObj: unknown,
@@ -26,3 +26,14 @@ export const downloadObjectAsSQL = (exportObj: GeneratedType) => {
   downloadAnchorNode.click();
   downloadAnchorNode.remove();
 };
+
+export const copyData = async (input: unknown, outputFormat: OutputFormat) => {
+  try {
+    const type = "text/plain";
+    const blob = new Blob([outputFormat === OutputFormat.SQL ? toSQL(input as GeneratedType) : JSON.stringify(input)], { type });
+    const data = [new ClipboardItem({ [type]: blob } as unknown as Record<string, ClipboardItemData>)];
+    await navigator.clipboard.write(data)
+  } catch (error) {
+    alert("Can't Copy The Data")
+  }
+}

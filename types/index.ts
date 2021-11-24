@@ -30,3 +30,8 @@ export enum MemberType {
   BOOLEAN = "boolean",
   DATE = "Date",
 }
+
+export enum OutputFormat {
+  SQL = "SQL",
+  JSON = "JSON",
+}
